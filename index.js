@@ -64,7 +64,8 @@ class DepLinker {
     // Only valid on win32
     const linkTypeJunction = 'junction';
     const linkTypeDir = 'dir';
-    const linkType = (isWin && opts.type !== 'dir') ? linkTypeJunction : linkTypeDir; 
+    const linkType = (isWin && opts.type !== 'dir') ? linkTypeJunction : linkTypeDir;
+    const linkSourceRoot = opts.source ? opts.source : './node_modules';
 
     // Create all folders up to the destiny folder
     fs.mkdirpSync(dest);
@@ -72,7 +73,7 @@ class DepLinker {
     const linkingPromises = [];
     for (const depName of dependencies) {
       // relative paths
-      const rLinkSource = path.join('./node_modules', depName);
+      const rLinkSource = path.join(linkSourceRoot, depName);
       const rLinkDestiny = path.join(dest, depName);
 
       const linkSource = path.resolve(rLinkSource);
